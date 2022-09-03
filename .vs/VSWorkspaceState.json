@@ -2,6 +2,7 @@
   "ExpandedNodes": [
     "",
     "\\AskMe",
+    "\\AskMe\\Controllers",
     "\\AskMe\\Views",
     "\\AskMe\\Views\\Home"
   ],
