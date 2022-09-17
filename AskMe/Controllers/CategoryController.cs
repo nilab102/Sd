@@ -10,22 +10,17 @@ namespace AskMe.Controllers
     public class CategoryController : Controller
     {// GET: Category
         AskMeEntities dbobj = new AskMeEntities();
-        public ActionResult AddCategory()
-        {
-           return View();
-        }
-
-        [HttpPost]
+   
         public ActionResult AddCategory(Category model)
         {
+            if(model.CategoryName== null) return View();
             Category obj = new Category();
             if (dbobj.Categories.Any(x => x.CategoryName == model.CategoryName))
             {
                 ViewBag.notification = "This Category has already existed";
                 return View();
             }
-            if (!ModelState.IsValid)
-            {
+           
                 obj.CategoryId = model.CategoryId;
                 obj.CategoryName = model.CategoryName;
 
@@ -33,14 +28,15 @@ namespace AskMe.Controllers
                 {
                     dbobj.Categories.Add(obj);
                     dbobj.SaveChanges();
-                }
+                ViewBag.notification = "Category Added";
+            }
                 else
                 {
                     dbobj.Entry(obj).State = System.Data.Entity.EntityState.Modified;
                     dbobj.SaveChanges();
-                }
-
+                ViewBag.notification = "Category Name Updated";
             }
+
             ModelState.Clear();
 
            // var list = dbobj.Categories.ToList();

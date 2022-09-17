@@ -1,7 +1,9 @@
 ﻿@model AskMe.Models.Category
 @{
     ViewBag.Title = "Category";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
+
 
 <h2>Category</h2>
 <style>
@@ -10,9 +12,11 @@
     }
 </style>
 
-@using (Html.BeginForm("AddCategory", "Category", FormMethod.Post))
+@using (Html.BeginForm())
 {
+    @Html.AntiForgeryToken()
     @Html.HiddenFor(x => x.CategoryId)
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
     <div class="form-group">
         <label>Category Name</label>
         @Html.ValidationMessageFor(x => x.CategoryName, "", new { @class = "error" })

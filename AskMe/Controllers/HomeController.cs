@@ -36,7 +36,31 @@ namespace AskMe.Controllers
 
             return View();
         }
+        public ActionResult AnswerQuestion(Answer qs)
+        {
 
+            if (Session["username"] == null)
+            {
+                return RedirectToAction("UserLogin", "User");
+            }
+
+            if (qs.Content == null)
+            {
+                return View();
+            }
+            Answer obj = new Answer();
+        
+
+            obj.QuestionId = qs.QuestionId;
+            obj.UserId = qs.UserId;
+            obj.Content = qs.Content;
+            obj.CreationDate = Convert.ToString(DateTime.Now);
+
+            db.Answers.Add(obj);
+            db.SaveChanges();
+            return View();
+
+        }
         public ActionResult ShowQuestion(Question qs)
         {
             User qUser = db.Users.Where(x => x.UserId == qs.UserId).ToList().First();
@@ -114,6 +138,10 @@ namespace AskMe.Controllers
         [HttpGet]
         public ActionResult EditQuestion(Question obj)
         {
+            if (Session["username"] == null)
+            {
+                return RedirectToAction("UserLogin", "User");
+            }
 
             List<Category> categoryList = db.Categories.ToList();
             ViewBag.categoryList = categoryList;
@@ -124,7 +152,10 @@ namespace AskMe.Controllers
         [HttpPost]
         public ActionResult EditQuestionPost(Question obj)
         {
-
+            if (Session["username"] == null)
+            {
+                return RedirectToAction("UserLogin", "User");
+            }
             if (obj.QStatus == null) obj.QStatus = 0;
             else obj.QStatus = 1;
             if (obj.Solved == null) obj.Solved = 0;
@@ -140,11 +171,17 @@ namespace AskMe.Controllers
 
         public ActionResult Delete(int QuestionId)
         {
-            if (false)
+            if (Session["username"] == null)
+            {
+                return RedirectToAction("UserLogin", "User");
+            }
+            List<Answer> categoryList = db.Answers.Where(x => x.QuestionId == QuestionId).ToList();
+            while (categoryList.Count!=0)
             {
                 var answertodlt = db.Answers.Where(x => x.QuestionId == QuestionId).First();
                 db.Answers.Remove(answertodlt);
                 db.SaveChanges();
+                categoryList = db.Answers.Where(x => x.QuestionId == QuestionId).ToList();
             }
 
             var res = db.Questions. Where(x => x.QuestionId == QuestionId).First();

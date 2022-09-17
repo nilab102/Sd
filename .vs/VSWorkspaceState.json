@@ -2,8 +2,9 @@
   "ExpandedNodes": [
     "",
     "\\AskMe",
+    "\\AskMe\\Controllers",
     "\\AskMe\\Views",
-    "\\AskMe\\Views\\Home"
+    "\\AskMe\\Views\\User"
   ],
   "SelectedNode": "\\AskMe.sln",
   "PreviewInSolutionExplorer": false
